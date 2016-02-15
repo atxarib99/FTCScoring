@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">FTCScoring</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="baseText">(1-10)</string>
+    <string name="help">Welcome to FTCScoring! \n \nThis program is designed to take match scouting to a
+    different level. This easy to use app will allow you to enter team details after they play a match.
+    The programs MMR algorithm takes care of the rest. \n \nJust enter 1-10 for each field (10 being the highest)
+    and let the program do its magic! At the end of your scouting press "Get Best Team" and watch
+    the app statistically get you the best alliance partner! \n \nHappy Scouting!</string>
+    <string name="vary">*Algorithm gets best team based on MMR system. May not provide the best in
+        game results.*</string>
+</resources>
