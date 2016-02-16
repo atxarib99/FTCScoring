@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +43,6 @@ public class MainActivity extends Activity {
     public final static String LOG_TAG = MainActivity.class.getSimpleName();
     static ArrayList<Team> teams = new ArrayList<>();
     HomeWatcher mHomeWatcher = new HomeWatcher(this);
-    File file;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -57,44 +57,18 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        file = new File(getFilesDir(), FILE_NAME);
-        SaveData saved;
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            saved = (SaveData) ois.readObject();
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Error retrieving object");
-            Context context = getApplicationContext();
-            CharSequence text = "Error retrieving object (ITS OK IF THIS IS FIRST LAUNCH)";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            saved = new SaveData();
-        }
+        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+        tabHost.setup();
 
-        teams = saved.getArrayListTeams();
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("PitScouting");
+        tabHost.addTab(tabHost.newTabSpec("PitScouting").setIndicator("Pit").setContent(R.id.PitScouting));
+
+        tabSpec = tabHost.newTabSpec("MatchScouting");
+        tabHost.addTab(tabHost.newTabSpec("MatchScouting").setIndicator("Match").setContent(R.id.MatchScouting));
+
         mHomeWatcher.setOnHomePressedListener(new OnHomePressedListener() {
             @Override
             public void onHomePressed() {
-                Context context = getApplicationContext();
-                CharSequence text = "Home Button Pressed";
-                int duration = Toast.LENGTH_LONG;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-                Team[] saveableTeams = new Team[teams.size()];
-                for (int i = 0; i < teams.size(); i++) {
-                    saveableTeams[i] = teams.get(i);
-                }
-                SaveData saved = new SaveData(saveableTeams);
-                try {
-                    FileOutputStream fos = new FileOutputStream(file);
-                    ObjectOutputStream oos = new ObjectOutputStream(fos);
-                    oos.writeObject(saved);
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Error saving object");
-                }
             }
 
             @Override
@@ -137,18 +111,6 @@ public class MainActivity extends Activity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
 
-            Team[] saveableTeams = new Team[teams.size()];
-            for (int i = 0; i < teams.size(); i++) {
-                saveableTeams[i] = teams.get(i);
-            }
-            SaveData saved = new SaveData(saveableTeams);
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(saved);
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Error saving object");
-            }
 
             startActivity(intent);
             return true;
