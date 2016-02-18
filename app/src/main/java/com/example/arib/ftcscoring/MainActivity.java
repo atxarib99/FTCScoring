@@ -32,6 +32,7 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -100,7 +101,7 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_bestpit) {
             Intent intent = new Intent(this, RanksActivity.class);
             Team temp = findBestTeam();
             intent.putExtra(TEAM1, temp.getTeamNumber() + "");
@@ -118,43 +119,39 @@ public class MainActivity extends Activity {
         if(id == R.id.action_help) {
             Intent intent = new Intent(this, HelpActivity.class);
             startActivity(intent);
+            return true;
+        }
+        if(id == R.id.action_bestmatch) {
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void clearFields(View view) {
-        EditText driverAbility = (EditText) findViewById(R.id.driverAbility_field);
         EditText robotStructure = (EditText) findViewById(R.id.robotStructure_field);
-        EditText durability = (EditText) findViewById(R.id.durability_field);
         EditText autonomousScore = (EditText) findViewById(R.id.autonomousScore_field);
         EditText autonomousConsistency = (EditText) findViewById(R.id.autonomousConsistency_field);
         EditText teleOpScore = (EditText) findViewById(R.id.teleOpScore_field);
         EditText teleOpConsistency = (EditText) findViewById(R.id.teleOpConsistency_field);
         EditText endGameScore = (EditText) findViewById(R.id.endGameScore_field);
         EditText endGameConsistency = (EditText) findViewById(R.id.endGameConsistency_field);
-        CheckBox pushBot = (CheckBox) findViewById(R.id.pushBot);
         EditText allianceTotalScore = (EditText) findViewById(R.id.allianceTotalScore_field);
         EditText teamNumber = (EditText) findViewById(R.id.name_field);
-        driverAbility.setText("");
         robotStructure.setText("");
-        durability.setText("");
         autonomousScore.setText("");
         autonomousConsistency.setText("");
         teleOpScore.setText("");
         teleOpConsistency.setText("");
         endGameScore.setText("");
         endGameConsistency.setText("");
-        pushBot.setChecked(false);
         allianceTotalScore.setText("");
         teamNumber.setText("");
 
     }
 
     public void addScore(View view) {
-        double driverAbility;
         double robotStructure;
-        double durability;
         double autonomousScore;
         double autonomousConsistency;
         double teleOpScore;
@@ -166,9 +163,7 @@ public class MainActivity extends Activity {
         boolean allGood = true;
 
         try {
-            driverAbility = Integer.parseInt(((EditText) findViewById(R.id.driverAbility_field)).getText() + "");
             robotStructure = Integer.parseInt(((EditText) findViewById(R.id.robotStructure_field)).getText() + "");
-            durability = Integer.parseInt(((EditText) findViewById(R.id.durability_field)).getText() + "");
             autonomousScore = Integer.parseInt(((EditText) findViewById(R.id.autonomousScore_field)).getText() + "");
             autonomousConsistency = Integer.parseInt(((EditText) findViewById(R.id.autonomousConsistency_field)).getText() + "");
             teleOpScore = Integer.parseInt(((EditText) findViewById(R.id.teleOpScore_field)).getText() + "");
@@ -185,9 +180,7 @@ public class MainActivity extends Activity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             allGood = false;
-            driverAbility = 0;
             robotStructure = 0;
-            durability = 0;
             autonomousConsistency = 0;
             autonomousScore = 0;
             teleOpScore = 0;
@@ -198,41 +191,62 @@ public class MainActivity extends Activity {
             teamNumber = 0;
 
         }
-        boolean pushBot = ((CheckBox) findViewById(R.id.pushBot)).isChecked();
         double score = 0.0;
 
         if(allGood) {
             double score1 = autonomousScore + (autonomousConsistency / 10);
             double score2 = teleOpScore + (teleOpConsistency / 10);
             double score3 = endGameScore + (endGameConsistency / 10);
-            double score4 = (driverAbility + robotStructure + durability) / 3;
+            double score4 = robotStructure;
             score = score1 + score2 + score3;
             score = score * (alliancePartnerScore / 10);
             score += score4;
-            double finalScore = Math.round(score);
-            if(pushBot) {
-                finalScore /= 2;
+            DecimalFormat df = new DecimalFormat("###.###");
+            double finalScore;
+            boolean finished = true;
+            try {
+                finalScore = Double.parseDouble(df.format(score));
+            } catch (NumberFormatException e) {
+                Context context = getApplicationContext();
+                CharSequence text = "Error incorrect format";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                finalScore = 0;
+                finished = false;
             }
 
-            Team t;
-            if (findTeamByNumber(teamNumber)) {
-                t = getTeamByNumber(teamNumber);
-                t.addNewScore(finalScore);
-            } else {
-                t = new Team(finalScore, teamNumber);
-                teams.add(t);
-            }
-            Context context = getApplicationContext();
-            CharSequence text = t.getTeamNumber() + ", " + t.score;
-            int duration = Toast.LENGTH_SHORT;
+            if(finished) {
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+                Team t;
+                if (findTeamByNumber(teamNumber)) {
+                    t = getTeamByNumber(teamNumber);
+                    t.addNewScore(finalScore);
+                } else {
+                    t = new Team(finalScore, teamNumber);
+                    teams.add(t);
+                }
+                Context context = getApplicationContext();
+                CharSequence text = t.getTeamNumber() + ", " + t.score;
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Context context = getApplicationContext();
+                CharSequence text = "Multithread error";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+
+            clearFields(view);
         }
-
-        
-
-
 
     }
 
@@ -264,6 +278,7 @@ public class MainActivity extends Activity {
         AlertDialog ask = AskOption();
         ask.show();
     }
+
 
     public Team findBestTeam() {
         int currentHigh = 0;

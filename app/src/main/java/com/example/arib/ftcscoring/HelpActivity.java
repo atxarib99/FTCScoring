@@ -41,7 +41,7 @@ public class HelpActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.blank_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -54,9 +54,11 @@ public class HelpActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_lol) {
-            Toast toast = new Toast(this);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setText("You Little Rebel.");
+            Context context = getApplicationContext();
+            CharSequence text = "You Little Rebel.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             while(Toast.LENGTH_LONG > toast.getDuration()) {
 

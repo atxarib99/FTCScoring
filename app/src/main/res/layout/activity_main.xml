@@ -50,9 +50,9 @@
                     <EditText
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/team1"
+                        android:id="@+id/redteam1"
                         android:numeric="integer"
-                        android:text="Team 1 #"
+                        android:hint="Team 1 #"
                         android:layout_marginTop="20dp"
                         android:layout_below="@+id/textView"
                         android:layout_alignParentStart="true" />
@@ -60,21 +60,21 @@
                     <EditText
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/team2"
+                        android:id="@+id/redTeam2"
                         android:numeric="integer"
-                        android:text="Team 2 #"
-                        android:layout_alignBaseline="@+id/team1"
-                        android:layout_alignBottom="@+id/team1"
+                        android:hint="Team 2 #"
+                        android:layout_alignBaseline="@+id/redteam1"
+                        android:layout_alignBottom="@+id/redteam1"
                         android:layout_alignParentEnd="true" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText"
-                        android:layout_below="@+id/team1"
+                        android:id="@+id/redAllianceScore"
+                        android:layout_below="@+id/redteam1"
                         android:layout_centerHorizontal="true"
                         android:numeric="integer"
-                        android:text="Red Alliance Score" />
+                        android:hint="Red Alliance Score" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -91,33 +91,33 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText2"
+                        android:id="@+id/blueTeam1"
                         android:numeric="integer"
                         android:layout_below="@+id/textView2"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="20dp"
-                        android:layout_alignEnd="@+id/team1"
-                        android:text="Team 1 #" />
+                        android:layout_alignEnd="@+id/redteam1"
+                        android:hint="Team 1 #" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText3"
+                        android:id="@+id/blueTeam2"
                         android:numeric="integer"
-                        android:layout_alignBottom="@+id/editText2"
+                        android:layout_alignBottom="@+id/blueTeam1"
                         android:layout_alignParentEnd="true"
                         android:layout_toEndOf="@+id/textView"
-                        android:layout_alignStart="@+id/team2"
-                        android:text="Team 2 #" />
+                        android:layout_alignStart="@+id/redTeam2"
+                        android:hint="Team 2 #" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText4"
+                        android:id="@+id/blueAllianceScore"
                         android:numeric="integer"
-                        android:layout_below="@+id/editText3"
+                        android:layout_below="@+id/blueTeam2"
                         android:layout_centerHorizontal="true"
-                        android:text="Blue Alliance Score" />
+                        android:hint="Blue Alliance Score" />
 
                 </RelativeLayout>
 
@@ -133,70 +133,71 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Robot Structure"
                         android:numeric="integer"
-                        android:id="@+id/robotStructure_label"
+                        android:id="@+id/robotStructure_field"
                         android:layout_below="@+id/section_label"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp" />
+                        android:layout_marginTop="2dp"
+                        android:editable="false"
+                        android:hint="Robot Structure" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:numeric="integer"
-                        android:text="Autonomous Score"
-                        android:id="@+id/autonomousScore_label"
-                        android:layout_below="@+id/durability_label"
+                        android:hint="Autonomous Score"
+                        android:id="@+id/autonomousScore_field"
+                        android:layout_below="@+id/robotStructure_field"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="2dp" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Autonomous Consistency"
+                        android:hint="Autonomous Consistency"
                         android:numeric="integer"
-                        android:id="@+id/autonomousConsistency_label"
-                        android:layout_below="@+id/autonomousScore_label"
+                        android:id="@+id/autonomousConsistency_field"
+                        android:layout_below="@+id/autonomousScore_field"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="2dp" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tele-OP Score"
-                        android:id="@+id/teleOpScore_label"
+                        android:hint="Tele-OP Score"
+                        android:id="@+id/teleOpScore_field"
                         android:numeric="integer"
-                        android:layout_below="@+id/autonomousConsistency_label"
+                        android:layout_below="@+id/autonomousConsistency_field"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="2dp" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tele-OP Consistency"
+                        android:hint="Tele-OP Consistency"
                         android:numeric="integer"
-                        android:id="@+id/teleOpConsistency_label"
-                        android:layout_below="@+id/teleOpScore_label"
+                        android:id="@+id/teleOpConsistency_field"
+                        android:layout_below="@+id/teleOpScore_field"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="2dp"/>
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="End Game Score"
+                        android:hint="End Game Score"
                         android:numeric="integer"
-                        android:id="@+id/endGameScore_label"
-                        android:layout_below="@+id/teleOpConsistency_label"
+                        android:id="@+id/endGameScore_field"
+                        android:layout_below="@+id/teleOpConsistency_field"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="2dp" />
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="End Game Consistency"
-                        android:id="@+id/endGameConsistency_label"
+                        android:hint="End Game Consistency"
+                        android:id="@+id/endGameConsistency_field"
                         android:numeric="integer"
-                        android:layout_below="@+id/endGameScore_label"
+                        android:layout_below="@+id/endGameScore_field"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="2dp"
                         />
@@ -204,10 +205,10 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Team Number:"
+                        android:hint="Team Number:"
                         android:numeric="integer"
-                        android:id="@+id/name_label"
-                        android:layout_below="@+id/allianceTotalScore_label"
+                        android:id="@+id/name_field"
+                        android:layout_below="@+id/allianceTotalScore_field"
                         android:layout_alignParentStart="true"
                         android:layout_marginTop="2dp"/>
 
@@ -218,7 +219,7 @@
                         android:id="@+id/addMatch"
                         android:layout_alignParentBottom="true"
                         android:onClick="addScore"
-                        android:layout_toEndOf="@+id/teleOpConsistency_label" />
+                        android:layout_toEndOf="@+id/teleOpConsistency_field" />
 
                 </LinearLayout>
 
