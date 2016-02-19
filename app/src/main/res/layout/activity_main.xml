@@ -119,6 +119,15 @@
                         android:layout_centerHorizontal="true"
                         android:hint="Blue Alliance Score" />
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Match"
+                        android:id="@+id/addMatch"
+                        android:layout_below="@+id/blueAllianceScore"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="21dp" />
+
                 </RelativeLayout>
 
                 <LinearLayout
@@ -127,8 +136,10 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+
                     <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -215,10 +226,10 @@
                     <Button
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
-                        android:text="Add Match"
-                        android:id="@+id/addMatch"
+                        android:text="Add Score"
+                        android:id="@+id/addScore"
                         android:layout_alignParentBottom="true"
-                        android:onClick="addScore"
+                        android:onClick="addPitScore"
                         android:layout_toEndOf="@+id/teleOpConsistency_field" />
 
                 </LinearLayout>

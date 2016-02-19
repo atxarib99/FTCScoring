@@ -40,10 +40,8 @@ public class MainActivity extends Activity {
 
     public final static String TEAM1 = "com.example.dhuka_844963.team1";
     public final static String SCORE1 = "com.example.dhuka_844963.score1";
-    private static final String FILE_NAME = "teams";
     public final static String LOG_TAG = MainActivity.class.getSimpleName();
     static ArrayList<Team> teams = new ArrayList<>();
-    HomeWatcher mHomeWatcher = new HomeWatcher(this);
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -66,17 +64,6 @@ public class MainActivity extends Activity {
 
         tabSpec = tabHost.newTabSpec("MatchScouting");
         tabHost.addTab(tabHost.newTabSpec("MatchScouting").setIndicator("Match").setContent(R.id.MatchScouting));
-
-        mHomeWatcher.setOnHomePressedListener(new OnHomePressedListener() {
-            @Override
-            public void onHomePressed() {
-            }
-
-            @Override
-            public void onHomeLongPressed() {
-
-            }
-        });
 
     }
 
@@ -103,11 +90,11 @@ public class MainActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_bestpit) {
             Intent intent = new Intent(this, RanksActivity.class);
-            Team temp = findBestTeam();
+            Team temp = findBestTeamByPit();
             intent.putExtra(TEAM1, temp.getTeamNumber() + "");
-            intent.putExtra(SCORE1, Math.round(temp.score) + "");
+            intent.putExtra(SCORE1, Math.round(temp.getPitScore()) + "");
             Context context = getApplicationContext();
-            CharSequence text = temp.getTeamNumber() + ", " + temp.score;
+            CharSequence text = temp.getTeamNumber() + ", " + temp.getPitScore();
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
@@ -150,7 +137,7 @@ public class MainActivity extends Activity {
 
     }
 
-    public void addScore(View view) {
+    public void addPitScore(View view) {
         double robotStructure;
         double autonomousScore;
         double autonomousConsistency;
@@ -222,13 +209,13 @@ public class MainActivity extends Activity {
                 Team t;
                 if (findTeamByNumber(teamNumber)) {
                     t = getTeamByNumber(teamNumber);
-                    t.addNewScore(finalScore);
+                    t.setPitScore(finalScore);
                 } else {
                     t = new Team(finalScore, teamNumber);
                     teams.add(t);
                 }
                 Context context = getApplicationContext();
-                CharSequence text = t.getTeamNumber() + ", " + t.score;
+                CharSequence text = t.getTeamNumber() + ", " + t.getPitScore();
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -248,6 +235,66 @@ public class MainActivity extends Activity {
             clearFields(view);
         }
 
+    }
+
+    public void addMatchScore(View view) {
+        int redAlliance1;
+        int redAlliance2;
+        int blueAlliance1;
+        int blueAlliance2;
+        int redAllianceScore;
+        int blueAllianceScore;
+        boolean allGood = true;
+        try {
+            redAlliance1 = Integer.parseInt(((EditText) findViewById(R.id.redteam1)).getText() + "");
+            redAlliance2 = Integer.parseInt(((EditText) findViewById(R.id.redTeam2)).getText() + "");
+            blueAlliance1 = Integer.parseInt(((EditText) findViewById(R.id.blueTeam1)).getText() + "");
+            blueAlliance2 = Integer.parseInt(((EditText) findViewById(R.id.blueTeam2)).getText() + "");
+            redAllianceScore = Integer.parseInt(((EditText) findViewById(R.id.redAllianceScore)).getText() + "");
+            blueAllianceScore = Integer.parseInt(((EditText) findViewById(R.id.blueAllianceScore)).getText() + "");
+        } catch (NumberFormatException e) {
+            allGood = false;
+            redAlliance1 = 0;
+            blueAlliance1 = 0;
+            redAlliance2 = 0;
+            blueAlliance2 = 0;
+            blueAllianceScore = 0;
+            redAllianceScore = 0;
+        }
+        if(allGood) {
+            if(findTeamByNumber(redAlliance1)) {
+                Team team = getTeamByNumber(redAlliance1);
+                team.addMatchScore(redAllianceScore);
+            } else {
+                Team team = new Team(redAllianceScore, redAlliance1);
+                teams.add(team);
+            }
+
+            if(findTeamByNumber(redAlliance2)) {
+                Team team = getTeamByNumber(redAlliance2);
+                team.addMatchScore(redAllianceScore);
+            } else {
+                Team team = new Team(redAllianceScore, redAlliance2);
+                teams.add(team);
+            }
+
+            if(findTeamByNumber(blueAlliance1)) {
+                Team team = getTeamByNumber(blueAlliance1);
+                team.addMatchScore(redAllianceScore);
+            } else {
+                Team team = new Team(blueAllianceScore, blueAlliance1);
+                teams.add(team);
+            }
+
+            if(findTeamByNumber(blueAlliance2)) {
+                Team team = getTeamByNumber(blueAlliance2);
+                team.addMatchScore(redAllianceScore);
+            } else {
+                Team team = new Team(blueAllianceScore, blueAlliance2);
+                teams.add(team);
+            }
+
+        }
     }
 
     private AlertDialog AskOption() {
@@ -280,15 +327,15 @@ public class MainActivity extends Activity {
     }
 
 
-    public Team findBestTeam() {
+    public Team findBestTeamByPit() {
         int currentHigh = 0;
         boolean done = false;
         Team returnable = new Team(0, 0);
         for (int i = 0; i < teams.size(); i++) {
-            if (teams.get(i).score > currentHigh) {
-                returnable.score = teams.get(i).score;
+            if (teams.get(i).getPitScore() > currentHigh) {
+                returnable.setPitScore(teams.get(i).getPitScore());
                 returnable.teamNumber = teams.get(i).teamNumber;
-                currentHigh = (int) teams.get(i).score;
+                currentHigh = (int) teams.get(i).getPitScore();
             }
         }
         return returnable;
