@@ -4,34 +4,19 @@ import android.app.Activity;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -42,6 +27,7 @@ public class MainActivity extends Activity {
     public final static String SCORE1 = "com.example.dhuka_844963.score1";
     public final static String LOG_TAG = MainActivity.class.getSimpleName();
     static ArrayList<Team> teams = new ArrayList<>();
+    protected static Context mainContext;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -56,6 +42,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainContext = this;
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
 
@@ -64,6 +51,8 @@ public class MainActivity extends Activity {
 
         tabSpec = tabHost.newTabSpec("MatchScouting");
         tabHost.addTab(tabHost.newTabSpec("MatchScouting").setIndicator("Match").setContent(R.id.MatchScouting));
+        DatabaseHandler db = new DatabaseHandler(this);
+        teams = (ArrayList) db.getAllTeams();
 
     }
 
@@ -109,7 +98,23 @@ public class MainActivity extends Activity {
             return true;
         }
         if(id == R.id.action_bestmatch) {
+            Intent intent = new Intent(this, RanksActivity.class);
+            Team temp = findBestTeamByMatch();
+            DecimalFormat df = new DecimalFormat("###.###");
+            String sending = df.format(temp.getMMR());
+            intent.putExtra(TEAM1, temp.getTeamNumber() + "");
+            intent.putExtra(SCORE1, sending);
+            Context context = getApplicationContext();
+            CharSequence text = temp.getTeamNumber() + ", " + temp.getMMR();
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+            startActivity(intent);
             return true;
+        }
+        if(id == R.id.action_reset) {
+            reset();
         }
 
         return super.onOptionsItemSelected(item);
@@ -220,6 +225,8 @@ public class MainActivity extends Activity {
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+                DatabaseHandler db = new DatabaseHandler(this);
+                db.addTeam(t);
             }
             try {
                 Thread.sleep(2000);
@@ -232,12 +239,14 @@ public class MainActivity extends Activity {
                 toast.show();
             }
 
+
             clearFields(view);
         }
 
     }
 
     public void addMatchScore(View view) {
+        DatabaseHandler db = new DatabaseHandler(this);
         int redAlliance1;
         int redAlliance2;
         int blueAlliance1;
@@ -260,51 +269,118 @@ public class MainActivity extends Activity {
             blueAlliance2 = 0;
             blueAllianceScore = 0;
             redAllianceScore = 0;
+            Context context = getApplicationContext();
+            CharSequence text = "Incorrect Input";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
         }
         if(allGood) {
             if(findTeamByNumber(redAlliance1)) {
                 Team team = getTeamByNumber(redAlliance1);
-                team.addMatchScore(redAllianceScore);
+                boolean good = team.addMatchScore(redAllianceScore);
+                if(!good) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Team has already played 5 matches";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                team.calculateMMR();
+                db.deleteTeam(team);
+                db.addTeam(team);
             } else {
                 Team team = new Team(redAllianceScore, redAlliance1);
                 teams.add(team);
+                db.addTeam(team);
             }
 
             if(findTeamByNumber(redAlliance2)) {
                 Team team = getTeamByNumber(redAlliance2);
-                team.addMatchScore(redAllianceScore);
+                boolean good = team.addMatchScore(redAllianceScore);
+                if(!good) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Team has already played 5 matches";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                team.calculateMMR();
+                db.deleteTeam(team);
+                db.addTeam(team);
             } else {
                 Team team = new Team(redAllianceScore, redAlliance2);
                 teams.add(team);
+                team.calculateMMR();
+                db.addTeam(team);
             }
 
             if(findTeamByNumber(blueAlliance1)) {
                 Team team = getTeamByNumber(blueAlliance1);
-                team.addMatchScore(redAllianceScore);
+                boolean good = team.addMatchScore(blueAllianceScore);
+                if(!good) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Team has already played 5 matches";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                team.calculateMMR();
+                db.deleteTeam(team);
+                db.addTeam(team);
             } else {
                 Team team = new Team(blueAllianceScore, blueAlliance1);
                 teams.add(team);
+                team.calculateMMR();
+                db.addTeam(team);
             }
 
             if(findTeamByNumber(blueAlliance2)) {
                 Team team = getTeamByNumber(blueAlliance2);
-                team.addMatchScore(redAllianceScore);
+                boolean good = team.addMatchScore(blueAllianceScore);
+                if(!good) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Team has already played 5 matches";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                team.calculateMMR();
+                db.deleteTeam(team);
+                db.addTeam(team);
             } else {
                 Team team = new Team(blueAllianceScore, blueAlliance2);
                 teams.add(team);
+                db.addTeam(team);
             }
 
         }
     }
 
     private AlertDialog AskOption() {
+        final DatabaseHandler db = new DatabaseHandler(this);
         AlertDialog restart = new AlertDialog.Builder(this)
                 .setTitle("Restart")
                 .setMessage("Are you sure you want to wipe current competition data?")
                 .setPositiveButton("Restart", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        teams = new ArrayList<Team>();
+                        Context context = getApplicationContext();
+                        CharSequence text = "Resetting... Please Wait";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                        while (teams.size() > 0) {
+                            db.deleteTeam(teams.get(0));
+                            teams.remove(0);
+                        }
                         dialog.dismiss();
                     }
                 })
@@ -320,7 +396,7 @@ public class MainActivity extends Activity {
 
     }
 
-    public void reset(View view) {
+    public void reset() {
 
         AlertDialog ask = AskOption();
         ask.show();
@@ -330,12 +406,25 @@ public class MainActivity extends Activity {
     public Team findBestTeamByPit() {
         int currentHigh = 0;
         boolean done = false;
-        Team returnable = new Team(0, 0);
+        Team returnable = new Team();
         for (int i = 0; i < teams.size(); i++) {
             if (teams.get(i).getPitScore() > currentHigh) {
                 returnable.setPitScore(teams.get(i).getPitScore());
                 returnable.teamNumber = teams.get(i).teamNumber;
                 currentHigh = (int) teams.get(i).getPitScore();
+            }
+        }
+        return returnable;
+    }
+
+    private Team findBestTeamByMatch() {
+        double currentHigh = 0;
+        Team returnable = new Team();
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getMMR() > currentHigh) {
+                returnable.setMMR(teams.get(i).getMMR());
+                returnable.setTeamNumber(teams.get(i).getTeamNumber());
+                currentHigh = teams.get(i).getMMR();
             }
         }
         return returnable;
@@ -357,5 +446,16 @@ public class MainActivity extends Activity {
             }
         }
         return new Team(0, 0);
+    }
+
+    public static int getNextAvailId() {
+        int id = 0;
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getId() == id) {
+                id++;
+                i = 0;
+            }
+        }
+        return id;
     }
 }

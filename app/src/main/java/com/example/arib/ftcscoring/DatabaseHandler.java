@@ -26,8 +26,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Contacts Table column headers
 
     private static final String KEY_ID      = "id";
-    private static final String KEY_NUMBER    = "number";
-    private static final String KEY_MMR   = "mmr";
+    private static final String KEY_NUMBER  = "number";
+    private static final String KEY_MMR     = "mmr";
 
     //default constructor
     public DatabaseHandler(Context context) {
@@ -36,6 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TEAMS);
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_TEAMS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NUMBER + " TEXT,"
                 + KEY_MMR + " TEXT" + ")";
@@ -51,12 +52,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addContact(Team team) {
+    public void addTeam(Team team) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_NUMBER, team.getTeamNumber());
-        values.put(KEY_MMR, team.calculateMMR());
+        values.put(KEY_MMR, team.getMMR());
 //        values.put(KEY_ID, contact.get_id());
 
         db.insert(TABLE_TEAMS, null, values);
@@ -79,7 +80,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return team;
     }
 
-    public List<Team> getAllContacts() {
+    public List<Team> getAllTeams() {
         List<Team> teamList = new ArrayList<Team>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_TEAMS;
@@ -93,7 +94,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 Team team = new Team();
                 team.setId(Integer.parseInt(cursor.getString(0)));
                 team.setTeamNumber(Integer.parseInt(cursor.getString(1)));
-                team.setMMR(Integer.parseInt(cursor.getString(2)));
+                team.setMMR(Double.parseDouble(cursor.getString(2)));
                 teamList.add(team);
             } while (cursor.moveToNext());
         }
@@ -103,7 +104,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public int getContactsCount() {
+    public int getTeamsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_TEAMS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -113,7 +114,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
-    public int updateContact(Team team) {
+    public int updateTeam(Team team) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -125,7 +126,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(team.getId()) });
     }
 
-    public void deleteContact(Team team) {
+    public void deleteTeam(Team team) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TEAMS, KEY_ID + " = ?",
                 new String[] { String.valueOf(team.getId()) });

@@ -22,7 +22,7 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TabWidget>
+                android:layout_height="wrap_content"> </TabWidget>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -126,11 +126,12 @@
                         android:id="@+id/addMatch"
                         android:layout_below="@+id/blueAllianceScore"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="21dp" />
+                        android:layout_marginTop="21dp"
+                        android:onClick="addMatchScore" />
 
                 </RelativeLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/PitScouting"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -148,7 +149,7 @@
                         android:id="@+id/robotStructure_field"
                         android:layout_below="@+id/section_label"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="0dp"
                         android:editable="false"
                         android:hint="Robot Structure" />
 
@@ -160,7 +161,7 @@
                         android:id="@+id/autonomousScore_field"
                         android:layout_below="@+id/robotStructure_field"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp" />
+                        android:layout_marginTop="0dp" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -170,7 +171,7 @@
                         android:id="@+id/autonomousConsistency_field"
                         android:layout_below="@+id/autonomousScore_field"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp" />
+                        android:layout_marginTop="0dp" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -180,7 +181,7 @@
                         android:numeric="integer"
                         android:layout_below="@+id/autonomousConsistency_field"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp" />
+                        android:layout_marginTop="0dp" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -190,7 +191,7 @@
                         android:id="@+id/teleOpConsistency_field"
                         android:layout_below="@+id/teleOpScore_field"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp"/>
+                        android:layout_marginTop="0dp"/>
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -200,7 +201,7 @@
                         android:id="@+id/endGameScore_field"
                         android:layout_below="@+id/teleOpConsistency_field"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp" />
+                        android:layout_marginTop="0dp" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -210,8 +211,16 @@
                         android:numeric="integer"
                         android:layout_below="@+id/endGameScore_field"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="0dp"
                         />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/allianceTotalScore_field"
+                        android:numeric="integer"
+                        android:layout_below="@+id/endGameConsistency_field"
+                        android:hint="AllianceTotalScore" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -221,18 +230,18 @@
                         android:id="@+id/name_field"
                         android:layout_below="@+id/allianceTotalScore_field"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="2dp"/>
+                        android:layout_marginTop="0dp"/>
 
                     <Button
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
                         android:text="Add Score"
                         android:id="@+id/addScore"
-                        android:layout_alignParentBottom="true"
                         android:onClick="addPitScore"
-                        android:layout_toEndOf="@+id/teleOpConsistency_field" />
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
             </FrameLayout>
