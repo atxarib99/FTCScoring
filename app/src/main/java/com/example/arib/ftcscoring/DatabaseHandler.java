@@ -25,9 +25,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Contacts Table column headers
 
-    private static final String KEY_ID      = "id";
-    private static final String KEY_NUMBER  = "number";
-    private static final String KEY_MMR     = "mmr";
+    private static final String KEY_ID          = "id";
+    private static final String KEY_NUMBER      = "number";
+    private static final String KEY_MMR         = "mmr";
+    private static final String KEY_PITSCORE    = "pitscore";
+    private static final String KEY_INFO        = "info";
 
     //default constructor
     public DatabaseHandler(Context context) {
@@ -36,10 +38,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TEAMS);
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_TEAMS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NUMBER + " TEXT,"
-                + KEY_MMR + " TEXT" + ")";
+                + KEY_MMR + " TEXT," + KEY_PITSCORE + "INTEGER PRIMARY KEY," +
+                KEY_INFO + "TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -58,6 +60,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NUMBER, team.getTeamNumber());
         values.put(KEY_MMR, team.getMMR());
+        values.put(KEY_PITSCORE, team.getPitScore());
+        values.put(KEY_INFO, team.getInfo());
 //        values.put(KEY_ID, contact.get_id());
 
         db.insert(TABLE_TEAMS, null, values);
@@ -68,7 +72,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_TEAMS, new String[] { KEY_ID,
-                KEY_NUMBER, KEY_MMR}, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+                KEY_NUMBER, KEY_MMR, KEY_INFO}, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
 
         if(cursor != null) {
             cursor.moveToFirst();

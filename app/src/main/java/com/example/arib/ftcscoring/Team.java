@@ -15,6 +15,7 @@ public class Team {
     double pitScore;
     int teamNumber;
     int id;
+    String notes;
 
     public Team() {
         id = MainActivity.getNextAvailId();
@@ -23,6 +24,7 @@ public class Team {
         matchScores = new ArrayList<>();
         pitScore = 0.0;
         teamNumber = 0;
+        notes = "";
     }
     public Team(int score, int teamNumber) {
 //        matchScores = new int[5];
@@ -32,6 +34,7 @@ public class Team {
         this.teamNumber = teamNumber;
         id = MainActivity.getNextAvailId();
         MMR = 0;
+        notes = "";
     }
     public Team(double score, int teamNumber) {
 //        matchScores = new int[5];
@@ -40,6 +43,7 @@ public class Team {
         this.teamNumber = teamNumber;
         MMR = 0;
         id = MainActivity.getNextAvailId();
+        notes = "";
     }
 
     public void calculateMMR() {
@@ -74,7 +78,7 @@ public class Team {
             }
             consistency = maximumScore - minimumScore;
             consistency = consistency / 10;
-            consistency = Math.abs(MAXIMUM_VALUE - consistency);
+            consistency = Math.abs((maximumScore / 2) - consistency);
 
         }
         else {
@@ -159,5 +163,13 @@ public class Team {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setInfo(String message) {
+        notes = message;
+    }
+
+    public String getInfo() {
+        return notes;
     }
 }

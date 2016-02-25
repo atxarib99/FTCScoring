@@ -14,17 +14,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends Activity {
 
     public final static String TEAM1 = "com.example.dhuka_844963.team1";
     public final static String SCORE1 = "com.example.dhuka_844963.score1";
+    public final static String TEAM2 = "com.example.arib.team2";
+    public final static String SCORE2 = "com.example.arib.score2";
+    public final static String TEAM3 = "com.example.arib.team3";
+    public final static String SCORE3 = "com.example.arib.score3";
+    public final static String TEAM4 = "com.example.arib.team4";
+    public final static String SCORE4 = "com.example.arib.score4";
+    public final static String TEAM5 = "com.example.arib.team5";
+    public final static String SCORE5 = "com.example.arib.score5";
+    public final static String TEAM6 = "com.example.arib.team6";
+    public final static String SCORE6 = "com.example.arib.score6";
+    public final static String TEAM7 = "com.example.arib.team7";
+    public final static String SCORE7 = "com.example.arib.score7";
+    public final static String TEAM8 = "com.example.arib.team8";
+    public final static String SCORE8 = "com.example.arib.score8";
     public final static String LOG_TAG = MainActivity.class.getSimpleName();
     static ArrayList<Team> teams = new ArrayList<>();
     protected static Context mainContext;
@@ -99,17 +115,29 @@ public class MainActivity extends Activity {
         }
         if(id == R.id.action_bestmatch) {
             Intent intent = new Intent(this, RanksActivity.class);
-            Team temp = findBestTeamByMatch();
+            ArrayList<Team> best = findBestTeamsByMatch();
             DecimalFormat df = new DecimalFormat("###.###");
-            String sending = df.format(temp.getMMR());
-            intent.putExtra(TEAM1, temp.getTeamNumber() + "");
+            String sending = df.format(best.get(0).getMMR());
+            String sending2 = df.format(best.get(1).getMMR());
+            String sending3 = df.format(best.get(2).getMMR());
+            String sending4 = df.format(best.get(3).getMMR());
+            String sending5 = df.format(best.get(4).getMMR());
+            String sending6 = df.format(best.get(5).getMMR());
+            String sending7 = df.format(best.get(6).getMMR());
+            intent.putExtra(TEAM1, best.get(0).getTeamNumber() + "");
             intent.putExtra(SCORE1, sending);
-            Context context = getApplicationContext();
-            CharSequence text = temp.getTeamNumber() + ", " + temp.getMMR();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-
+            intent.putExtra(TEAM2, best.get(1).getTeamNumber() + "");
+            intent.putExtra(SCORE2, sending2);
+            intent.putExtra(TEAM3, best.get(2).getTeamNumber() + "");
+            intent.putExtra(SCORE3, sending3);
+            intent.putExtra(TEAM4, best.get(3).getTeamNumber() + "");
+            intent.putExtra(SCORE4, sending4);
+            intent.putExtra(TEAM5, best.get(4).getTeamNumber() + "");
+            intent.putExtra(SCORE5, sending5);
+            intent.putExtra(TEAM6, best.get(5).getTeamNumber() + "");
+            intent.putExtra(SCORE6, sending6);
+            intent.putExtra(TEAM7, best.get(6).getTeamNumber() + "");
+            intent.putExtra(SCORE7, sending7);
             startActivity(intent);
             return true;
         }
@@ -121,49 +149,71 @@ public class MainActivity extends Activity {
     }
 
     public void clearFields(View view) {
-        EditText robotStructure = (EditText) findViewById(R.id.robotStructure_field);
-        EditText autonomousScore = (EditText) findViewById(R.id.autonomousScore_field);
-        EditText autonomousConsistency = (EditText) findViewById(R.id.autonomousConsistency_field);
-        EditText teleOpScore = (EditText) findViewById(R.id.teleOpScore_field);
-        EditText teleOpConsistency = (EditText) findViewById(R.id.teleOpConsistency_field);
-        EditText endGameScore = (EditText) findViewById(R.id.endGameScore_field);
-        EditText endGameConsistency = (EditText) findViewById(R.id.endGameConsistency_field);
-        EditText allianceTotalScore = (EditText) findViewById(R.id.allianceTotalScore_field);
-        EditText teamNumber = (EditText) findViewById(R.id.name_field);
-        robotStructure.setText("");
+        EditText autonomousScore = (EditText) findViewById(R.id.autoScore);
+        EditText autonomousConsistency = (EditText) findViewById(R.id.autoConsist);
+        EditText teleOpScore = (EditText) findViewById(R.id.teleOpScore);
+        EditText teleOpConsistency = (EditText) findViewById(R.id.teleopConsist);
+        EditText endGameScore = (EditText) findViewById(R.id.endGameScore);
+        EditText endGameConsistency = (EditText) findViewById(R.id.endgameConsist);
+        EditText redTeam1 = (EditText) findViewById(R.id.redteam1);
+        EditText redTeam2 = (EditText) findViewById(R.id.redTeam2);
+        EditText redScore = (EditText) findViewById(R.id.redAllianceScore);
+        EditText blueTeam1 = (EditText) findViewById(R.id.blueTeam1);
+        EditText blueTeam2 = (EditText) findViewById(R.id.blueTeam2);
+        EditText blueScore = (EditText) findViewById(R.id.blueAllianceScore);
+        EditText teamNumber = (EditText) findViewById(R.id.teamNumber);
         autonomousScore.setText("");
         autonomousConsistency.setText("");
         teleOpScore.setText("");
         teleOpConsistency.setText("");
         endGameScore.setText("");
         endGameConsistency.setText("");
-        allianceTotalScore.setText("");
         teamNumber.setText("");
+        redTeam1.setText("");
+        redTeam2.setText("");
+        redScore.setText("");
+        blueTeam1.setText("");
+        blueTeam2.setText("");
+        blueScore.setText("");
+
 
     }
 
     public void addPitScore(View view) {
-        double robotStructure;
         double autonomousScore;
         double autonomousConsistency;
         double teleOpScore;
         double teleOpConsistency;
         double endGameScore;
         double endGameConsistency;
-        double alliancePartnerScore;
         int teamNumber;
         boolean allGood = true;
+        Spinner structure1 = (Spinner) findViewById(R.id.structure);
+        String structureSeleceted = structure1.getSelectedItem().toString();
+        int structure;
+        if(structureSeleceted.equals("Weak(Needs constant repair)")) {
+            structure = 3;
+        }
+        else if(structureSeleceted.equals("Sturdy(Few repairs needed)")) {
+            structure = 7;
+        }
+        else if(structureSeleceted.equals("Strong(Very rarely needs repairs)")) {
+            structure = 9;
+        }
+        else {
+            structure = 0;
+        }
+
+
 
         try {
-            robotStructure = Integer.parseInt(((EditText) findViewById(R.id.robotStructure_field)).getText() + "");
-            autonomousScore = Integer.parseInt(((EditText) findViewById(R.id.autonomousScore_field)).getText() + "");
-            autonomousConsistency = Integer.parseInt(((EditText) findViewById(R.id.autonomousConsistency_field)).getText() + "");
-            teleOpScore = Integer.parseInt(((EditText) findViewById(R.id.teleOpScore_field)).getText() + "");
-            teleOpConsistency = Integer.parseInt(((EditText) findViewById(R.id.teleOpConsistency_field)).getText() + "");
-            endGameScore = Integer.parseInt(((EditText) findViewById(R.id.endGameScore_field)).getText() + "");
-            endGameConsistency = Integer.parseInt(((EditText) findViewById(R.id.endGameConsistency_field)).getText() + "");
-            alliancePartnerScore = Integer.parseInt(((EditText) findViewById(R.id.allianceTotalScore_field)).getText() + "");
-            teamNumber = Integer.parseInt(((EditText) findViewById(R.id.name_field)).getText() + "");
+            autonomousScore = Integer.parseInt(((EditText) findViewById(R.id.autoScore)).getText() + "");
+            autonomousConsistency = Integer.parseInt(((EditText) findViewById(R.id.autoConsist)).getText() + "");
+            teleOpScore = Integer.parseInt(((EditText) findViewById(R.id.teleOpScore)).getText() + "");
+            teleOpConsistency = Integer.parseInt(((EditText) findViewById(R.id.teleopConsist)).getText() + "");
+            endGameScore = Integer.parseInt(((EditText) findViewById(R.id.endGameScore)).getText() + "");
+            endGameConsistency = Integer.parseInt(((EditText) findViewById(R.id.endgameConsist)).getText() + "");
+            teamNumber = Integer.parseInt(((EditText) findViewById(R.id.teamNumber)).getText() + "");
         } catch (NumberFormatException e){
             Context context = getApplicationContext();
             CharSequence text = "Error: Incorrect Input";
@@ -172,14 +222,12 @@ public class MainActivity extends Activity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             allGood = false;
-            robotStructure = 0;
             autonomousConsistency = 0;
             autonomousScore = 0;
             teleOpScore = 0;
             teleOpConsistency = 0;
             endGameScore = 0;
             endGameConsistency = 0;
-            alliancePartnerScore = 0;
             teamNumber = 0;
 
         }
@@ -189,10 +237,7 @@ public class MainActivity extends Activity {
             double score1 = autonomousScore + (autonomousConsistency / 10);
             double score2 = teleOpScore + (teleOpConsistency / 10);
             double score3 = endGameScore + (endGameConsistency / 10);
-            double score4 = robotStructure;
             score = score1 + score2 + score3;
-            score = score * (alliancePartnerScore / 10);
-            score += score4;
             DecimalFormat df = new DecimalFormat("###.###");
             double finalScore;
             boolean finished = true;
@@ -360,6 +405,7 @@ public class MainActivity extends Activity {
                 db.addTeam(team);
             }
 
+            clearFields(view);
         }
     }
 
@@ -417,17 +463,84 @@ public class MainActivity extends Activity {
         return returnable;
     }
 
-    private Team findBestTeamByMatch() {
-        double currentHigh = 0;
+    private ArrayList<Team> findBestTeamsByMatch() {
+        double highest = 0;
+        double highest2 = 0;
+        double highest3 = 0;
+        double highest4 = 0;
+        double highest5 = 0;
+        double highest6 = 0;
+        double highest7 = 0;
         Team returnable = new Team();
+        Team returnable2 = new Team();
+        Team returnable3 = new Team();
+        Team returnable4 = new Team();
+        Team returnable5 = new Team();
+        Team returnable6 = new Team();
+        Team returnable7 = new Team();
+        ArrayList<Team> toReturn = new ArrayList<>();
+
         for(int i = 0; i < teams.size(); i++) {
-            if(teams.get(i).getMMR() > currentHigh) {
+            if(teams.get(i).getMMR() > highest) {
                 returnable.setMMR(teams.get(i).getMMR());
                 returnable.setTeamNumber(teams.get(i).getTeamNumber());
-                currentHigh = teams.get(i).getMMR();
+                highest = teams.get(i).getMMR();
             }
         }
-        return returnable;
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getMMR() > highest2 && teams.get(i).getMMR() < highest) {
+                returnable2.setMMR(teams.get(i).getMMR());
+                returnable2.setTeamNumber(teams.get(i).getTeamNumber());
+                highest2 = teams.get(i).getMMR();
+            }
+        }
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getMMR() > highest3 && teams.get(i).getMMR() < highest2) {
+                returnable3.setMMR(teams.get(i).getMMR());
+                returnable3.setTeamNumber(teams.get(i).getTeamNumber());
+                highest3 = teams.get(i).getMMR();
+            }
+        }
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getMMR() > highest4 && teams.get(i).getMMR() < highest3) {
+                returnable4.setMMR(teams.get(i).getMMR());
+                returnable4.setTeamNumber(teams.get(i).getTeamNumber());
+                highest4 = teams.get(i).getMMR();
+            }
+        }
+        if(teams.size() > 6) {
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getMMR() > highest5 && teams.get(i).getMMR() < highest4) {
+                    returnable5.setMMR(teams.get(i).getMMR());
+                    returnable5.setTeamNumber(teams.get(i).getTeamNumber());
+                    highest5 = teams.get(i).getMMR();
+                }
+            }
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getMMR() > highest6 && teams.get(i).getMMR() < highest5) {
+                    returnable6.setMMR(teams.get(i).getMMR());
+                    returnable6.setTeamNumber(teams.get(i).getTeamNumber());
+                    highest6 = teams.get(i).getMMR();
+                }
+            }
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getMMR() > highest7 && teams.get(i).getMMR() < highest6) {
+                    returnable7.setMMR(teams.get(i).getMMR());
+                    returnable7.setTeamNumber(teams.get(i).getTeamNumber());
+                    highest7 = teams.get(i).getMMR();
+                }
+            }
+        }
+        toReturn.add(returnable);
+        toReturn.add(returnable2);
+        toReturn.add(returnable3);
+        toReturn.add(returnable4);
+        toReturn.add(returnable5);
+        toReturn.add(returnable6);
+        toReturn.add(returnable7);
+
+
+        return toReturn;
     }
 
     private boolean findTeamByNumber(int teamNumber) {

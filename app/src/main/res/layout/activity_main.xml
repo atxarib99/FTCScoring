@@ -30,6 +30,103 @@
                 android:layout_height="match_parent">
 
                 <RelativeLayout
+                    android:id="@+id/PitScouting"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+
+                    <Button
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:text="Add Score"
+                        android:id="@+id/addScore"
+                        android:onClick="addPitScore"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true" />
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/structure"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:spinnerMode="dropdown" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/autoScore"
+                        android:hint="Autonomous Score"
+                        android:layout_below="@+id/structure"
+                        android:nextFocusDown="@+id/autoConsist"
+                        android:layout_alignParentStart="true" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/teleOpScore"
+                        android:layout_marginTop="20dp"
+                        android:nextFocusDown="@+id/teleopConsist"
+                        android:layout_alignParentStart="true"
+                        android:hint="Driver Controlled Score"
+                        android:layout_below="@+id/autoConsist" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/endGameScore"
+                        android:layout_marginTop="20dp"
+                        android:nextFocusDown="@+id/endgameConsist"
+                        android:layout_alignParentStart="true"
+                        android:hint="End Game Score"
+                        android:layout_below="@+id/teleopConsist" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/teamNumber"
+                        android:layout_marginTop="20dp"
+                        android:layout_below="@+id/endgameConsist"
+                        android:layout_alignParentStart="true"
+                        android:hint="Team Number" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/autoConsist"
+                        android:layout_below="@+id/autoScore"
+                        android:nextFocusDown="@+id/teleOpScore"
+                        android:layout_alignParentStart="true"
+                        android:hint="Autonomous Consitency %" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/teleopConsist"
+                        android:layout_below="@+id/teleOpScore"
+                        android:nextFocusDown="@+id/endGameScore"
+                        android:layout_alignParentStart="true"
+                        android:hint="Driver Controlled %" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/endgameConsist"
+                        android:layout_below="@+id/endGameScore"
+                        android:nextFocusDown="@+id/teamNumber"
+                        android:layout_alignParentStart="true"
+                        android:hint="End Game Consitency %" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/MatchScouting"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -128,118 +225,6 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="21dp"
                         android:onClick="addMatchScore" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/PitScouting"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-                    <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:numeric="integer"
-                        android:id="@+id/robotStructure_field"
-                        android:layout_below="@+id/section_label"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="0dp"
-                        android:editable="false"
-                        android:hint="Robot Structure" />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:numeric="integer"
-                        android:hint="Autonomous Score"
-                        android:id="@+id/autonomousScore_field"
-                        android:layout_below="@+id/robotStructure_field"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="0dp" />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Autonomous Consistency"
-                        android:numeric="integer"
-                        android:id="@+id/autonomousConsistency_field"
-                        android:layout_below="@+id/autonomousScore_field"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="0dp" />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Tele-OP Score"
-                        android:id="@+id/teleOpScore_field"
-                        android:numeric="integer"
-                        android:layout_below="@+id/autonomousConsistency_field"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="0dp" />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Tele-OP Consistency"
-                        android:numeric="integer"
-                        android:id="@+id/teleOpConsistency_field"
-                        android:layout_below="@+id/teleOpScore_field"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="0dp"/>
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="End Game Score"
-                        android:numeric="integer"
-                        android:id="@+id/endGameScore_field"
-                        android:layout_below="@+id/teleOpConsistency_field"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="0dp" />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="End Game Consistency"
-                        android:id="@+id/endGameConsistency_field"
-                        android:numeric="integer"
-                        android:layout_below="@+id/endGameScore_field"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="0dp"
-                        />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/allianceTotalScore_field"
-                        android:numeric="integer"
-                        android:layout_below="@+id/endGameConsistency_field"
-                        android:hint="AllianceTotalScore" />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Team Number:"
-                        android:numeric="integer"
-                        android:id="@+id/name_field"
-                        android:layout_below="@+id/allianceTotalScore_field"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="0dp"/>
-
-                    <Button
-                        android:layout_width="125dp"
-                        android:layout_height="wrap_content"
-                        android:text="Add Score"
-                        android:id="@+id/addScore"
-                        android:onClick="addPitScore"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
 

@@ -16,4 +16,17 @@
         fields and enter the required values for them. \n \n*Algorithm gets best team based on MMR system. May not provide the best in
         game results*
     </string>
+    <string-array name="RobotStructure">
+        <item>Weak(Needs constant repair)</item>
+        <item>Sturdy(Few repairs needed)</item>
+        <item>Strong(Very rarely needs repairs)</item>
+    </string-array>
+    <string-array name="alliance">
+        <item>Got Carried</item>
+        <item>Slight Impact</item>
+        <item>Equal Impact</item>
+        <item>Major Impact</item>
+        <item>Carried</item>
+        <item></item>
+    </string-array>
 </resources>
