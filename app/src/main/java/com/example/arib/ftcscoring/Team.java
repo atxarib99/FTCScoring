@@ -22,6 +22,7 @@ public class Team {
         MMR = 0;
 //        matchScores = new int[5];
         matchScores = new ArrayList<>();
+
         pitScore = 0.0;
         teamNumber = 0;
         notes = "";
@@ -36,14 +37,14 @@ public class Team {
         MMR = 0;
         notes = "";
     }
-    public Team(double score, int teamNumber) {
+    public Team(double score, int teamNumber, String notes) {
 //        matchScores = new int[5];
         matchScores = new ArrayList<>();
         pitScore = score;
         this.teamNumber = teamNumber;
         MMR = 0;
         id = MainActivity.getNextAvailId();
-        notes = "";
+        this.notes = notes;
     }
 
     public void calculateMMR() {

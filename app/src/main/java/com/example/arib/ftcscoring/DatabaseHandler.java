@@ -40,7 +40,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_TEAMS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NUMBER + " TEXT,"
-                + KEY_MMR + " TEXT," + KEY_PITSCORE + "INTEGER PRIMARY KEY," +
+                + KEY_MMR + " TEXT," + KEY_PITSCORE + "TEXT," +
                 KEY_INFO + "TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -58,11 +58,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+
+        values.put(KEY_ID, team.getId());
         values.put(KEY_NUMBER, team.getTeamNumber());
         values.put(KEY_MMR, team.getMMR());
         values.put(KEY_PITSCORE, team.getPitScore());
         values.put(KEY_INFO, team.getInfo());
-//        values.put(KEY_ID, contact.get_id());
 
         db.insert(TABLE_TEAMS, null, values);
         db.close();
@@ -99,6 +100,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 team.setId(Integer.parseInt(cursor.getString(0)));
                 team.setTeamNumber(Integer.parseInt(cursor.getString(1)));
                 team.setMMR(Double.parseDouble(cursor.getString(2)));
+                team.setPitScore(Integer.parseInt(cursor.getString(3)));
+                team.setInfo(cursor.getString(4));
                 teamList.add(team);
             } while (cursor.moveToNext());
         }

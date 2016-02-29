@@ -13,8 +13,10 @@ import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TabHost;
 import android.widget.Toast;
 
@@ -69,6 +71,7 @@ public class MainActivity extends Activity {
         tabHost.addTab(tabHost.newTabSpec("MatchScouting").setIndicator("Match").setContent(R.id.MatchScouting));
         DatabaseHandler db = new DatabaseHandler(this);
         teams = (ArrayList) db.getAllTeams();
+
 
     }
 
@@ -232,12 +235,13 @@ public class MainActivity extends Activity {
 
         }
         double score = 0.0;
-
+        String notes = ((EditText) findViewById(R.id.notes)).getText() + "";
         if(allGood) {
             double score1 = autonomousScore + (autonomousConsistency / 10);
             double score2 = teleOpScore + (teleOpConsistency / 10);
             double score3 = endGameScore + (endGameConsistency / 10);
-            score = score1 + score2 + score3;
+            double score4 = structure;
+            score = score1 + score2 + score3 + score4;
             DecimalFormat df = new DecimalFormat("###.###");
             double finalScore;
             boolean finished = true;
@@ -260,8 +264,9 @@ public class MainActivity extends Activity {
                 if (findTeamByNumber(teamNumber)) {
                     t = getTeamByNumber(teamNumber);
                     t.setPitScore(finalScore);
+                    t.setInfo(notes);
                 } else {
-                    t = new Team(finalScore, teamNumber);
+                    t = new Team(finalScore, teamNumber, notes);
                     teams.add(t);
                 }
                 Context context = getApplicationContext();
