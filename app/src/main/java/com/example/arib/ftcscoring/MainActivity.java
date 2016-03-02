@@ -236,6 +236,16 @@ public class MainActivity extends Activity {
         }
         double score = 0.0;
         String notes = ((EditText) findViewById(R.id.notes)).getText() + "";
+        String teamName = ((EditText) findViewById(R.id.teamName)).getText() + "";
+        if((teamName.equals(""))) {
+            allGood = false;
+            Context context = getApplicationContext();
+            CharSequence text = "Error: input team name";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
         if(allGood) {
             double score1 = autonomousScore + (autonomousConsistency / 10);
             double score2 = teleOpScore + (teleOpConsistency / 10);
@@ -265,8 +275,9 @@ public class MainActivity extends Activity {
                     t = getTeamByNumber(teamNumber);
                     t.setPitScore(finalScore);
                     t.setInfo(notes);
+                    t.setTeamName(teamName);
                 } else {
-                    t = new Team(finalScore, teamNumber, notes);
+                    t = new Team(finalScore, teamNumber, notes, teamName);
                     teams.add(t);
                 }
                 Context context = getApplicationContext();

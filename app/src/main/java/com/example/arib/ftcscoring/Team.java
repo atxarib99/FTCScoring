@@ -15,6 +15,10 @@ public class Team {
     double pitScore;
     int teamNumber;
     int id;
+
+
+
+    String teamName;
     String notes;
 
     public Team() {
@@ -22,7 +26,7 @@ public class Team {
         MMR = 0;
 //        matchScores = new int[5];
         matchScores = new ArrayList<>();
-
+        teamName = "";
         pitScore = 0.0;
         teamNumber = 0;
         notes = "";
@@ -32,15 +36,17 @@ public class Team {
 //        matchScores[0] = score;
         matchScores = new ArrayList<>();
         matchScores.add(score);
+        teamName = "";
         this.teamNumber = teamNumber;
         id = MainActivity.getNextAvailId();
         MMR = 0;
         notes = "";
     }
-    public Team(double score, int teamNumber, String notes) {
+    public Team(double score, int teamNumber, String notes, String teamName) {
 //        matchScores = new int[5];
         matchScores = new ArrayList<>();
         pitScore = score;
+        this.teamName = teamName;
         this.teamNumber = teamNumber;
         MMR = 0;
         id = MainActivity.getNextAvailId();
@@ -50,8 +56,7 @@ public class Team {
     public void calculateMMR() {
         int average = 0;
         boolean okSoFar = true;
-        int consistency = 0;
-        final int MAXIMUM_VALUE = 30;
+        int consistency;
         if(matchScores.size() > 0) {
             for(int i = 0; i < matchScores.size(); i++) {
                 average += matchScores.get(i);
@@ -172,5 +177,13 @@ public class Team {
 
     public String getInfo() {
         return notes;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 }
