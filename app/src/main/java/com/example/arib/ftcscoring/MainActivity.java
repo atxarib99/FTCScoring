@@ -148,6 +148,10 @@ public class MainActivity extends Activity {
             reset();
         }
 
+        if(id == R.id.action_view) {
+            startActivity(new Intent(this, TeamListActivity.class));
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -190,6 +194,7 @@ public class MainActivity extends Activity {
         double endGameScore;
         double endGameConsistency;
         int teamNumber;
+        DatabaseHandler db = new DatabaseHandler(this);
         boolean allGood = true;
         Spinner structure1 = (Spinner) findViewById(R.id.structure);
         String structureSeleceted = structure1.getSelectedItem().toString();
@@ -286,7 +291,7 @@ public class MainActivity extends Activity {
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-                DatabaseHandler db = new DatabaseHandler(this);
+
                 db.addTeam(t);
             }
             try {

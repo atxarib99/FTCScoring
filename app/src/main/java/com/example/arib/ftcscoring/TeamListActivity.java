@@ -63,17 +63,17 @@ public class TeamListActivity extends Activity {
                 itemView = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
             }
             Team currentTeam = teamList.get(position);
-            String teamName = currentTeam.getTeamName();
+            String teamName = currentTeam.getTeamName() + "";
             String teamNumber = currentTeam.getTeamNumber() + "";
             String pitScore = currentTeam.getPitScore() + "";
             String MMR = currentTeam.getMMR() + "";
             String teamNotes = currentTeam.getInfo();
 
-            TextView teamNameView = (TextView) findViewById(R.id.viewingTeamName);
-            TextView teamNumberView = (TextView) findViewById(R.id.viewingTeamNumber);
-            TextView pitScoreView = (TextView) findViewById(R.id.viewingPitScore);
-            TextView MMRScoreView = (TextView) findViewById(R.id.viewingMMR);
-            TextView teamNotesView = (TextView) findViewById(R.id.viewingTeamNotes);
+            TextView teamNameView = (TextView) itemView.findViewById(R.id.viewingTeamName);
+            TextView teamNumberView = (TextView) itemView.findViewById(R.id.viewingTeamNumber);
+            TextView pitScoreView = (TextView) itemView.findViewById(R.id.viewingPitScore);
+            TextView MMRScoreView = (TextView) itemView.findViewById(R.id.viewingMMR);
+            TextView teamNotesView = (TextView) itemView.findViewById(R.id.viewingTeamNotes);
 
             teamNameView.setText(teamName);
             teamNumberView.setText(teamNumber);

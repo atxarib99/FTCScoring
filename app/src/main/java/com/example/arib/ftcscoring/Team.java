@@ -15,9 +15,6 @@ public class Team {
     double pitScore;
     int teamNumber;
     int id;
-
-
-
     String teamName;
     String notes;
 
