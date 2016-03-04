@@ -4,18 +4,28 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class TeamListActivity extends Activity {
 
     ArrayList<Team> teamList;
+    ArrayAdapter<Team> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_list);
         teamList = MainActivity.teams;
-
+        adapter = new MyListAdapter();
+        ListView list = (ListView) findViewById(R.id.teamListView);
+        list.setAdapter(adapter);
     }
 
     @Override
@@ -38,5 +48,42 @@ public class TeamListActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class MyListAdapter extends ArrayAdapter<Team> {
+        public MyListAdapter() {
+            super(TeamListActivity.this, R.layout.listview_item, teamList);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View itemView = convertView;
+            if(itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
+            }
+            Team currentTeam = teamList.get(position);
+            String teamName = currentTeam.getTeamName();
+            String teamNumber = currentTeam.getTeamNumber() + "";
+            String pitScore = currentTeam.getPitScore() + "";
+            String MMR = currentTeam.getMMR() + "";
+            String teamNotes = currentTeam.getInfo();
+
+            TextView teamNameView = (TextView) findViewById(R.id.viewingTeamName);
+            TextView teamNumberView = (TextView) findViewById(R.id.viewingTeamNumber);
+            TextView pitScoreView = (TextView) findViewById(R.id.viewingPitScore);
+            TextView MMRScoreView = (TextView) findViewById(R.id.viewingMMR);
+            TextView teamNotesView = (TextView) findViewById(R.id.viewingTeamNotes);
+
+            teamNameView.setText(teamName);
+            teamNumberView.setText(teamNumber);
+            pitScoreView.setText(pitScore);
+            MMRScoreView.setText(MMR);
+            teamNotesView.setText(teamNotes);
+
+            return itemView;
+
+        }
+
     }
 }
