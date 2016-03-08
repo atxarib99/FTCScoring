@@ -20,6 +20,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,14 +99,28 @@ public class MainActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_bestpit) {
             Intent intent = new Intent(this, RanksActivity.class);
-            Team temp = findBestTeamByPit();
-            intent.putExtra(TEAM1, temp.getTeamNumber() + "");
-            intent.putExtra(SCORE1, Math.round(temp.getPitScore()) + "");
-            Context context = getApplicationContext();
-            CharSequence text = temp.getTeamNumber() + ", " + temp.getPitScore();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            ArrayList<Team> best = findBestTeamByPit();
+            String sending = ((int) best.get(0).getPitScore()) + "";
+            String sending2 = ((int) best.get(1).getPitScore()) + "";
+            String sending3 = ((int) best.get(2).getPitScore()) + "";
+            String sending4 = ((int) best.get(3).getPitScore()) + "";
+            String sending5 = ((int) best.get(4).getPitScore()) + "";
+            String sending6 = ((int) best.get(5).getPitScore()) + "";
+            String sending7 = ((int) best.get(6).getPitScore()) + "";
+            intent.putExtra(TEAM1, best.get(0).getTeamNumber() + "");
+            intent.putExtra(SCORE1, sending);
+            intent.putExtra(TEAM2, best.get(1).getTeamNumber() + "");
+            intent.putExtra(SCORE2, sending2);
+            intent.putExtra(TEAM3, best.get(2).getTeamNumber() + "");
+            intent.putExtra(SCORE3, sending3);
+            intent.putExtra(TEAM4, best.get(3).getTeamNumber() + "");
+            intent.putExtra(SCORE4, sending4);
+            intent.putExtra(TEAM5, best.get(4).getTeamNumber() + "");
+            intent.putExtra(SCORE5, sending5);
+            intent.putExtra(TEAM6, best.get(5).getTeamNumber() + "");
+            intent.putExtra(SCORE6, sending6);
+            intent.putExtra(TEAM7, best.get(6).getTeamNumber() + "");
+            intent.putExtra(SCORE7, sending7);
 
 
             startActivity(intent);
@@ -470,18 +485,84 @@ public class MainActivity extends Activity {
     }
 
 
-    public Team findBestTeamByPit() {
-        int currentHigh = 0;
-        boolean done = false;
+    public ArrayList<Team> findBestTeamByPit() {
+        double highest = 0;
+        double highest2 = 0;
+        double highest3 = 0;
+        double highest4 = 0;
+        double highest5 = 0;
+        double highest6 = 0;
+        double highest7 = 0;
         Team returnable = new Team();
-        for (int i = 0; i < teams.size(); i++) {
-            if (teams.get(i).getPitScore() > currentHigh) {
+        Team returnable2 = new Team();
+        Team returnable3 = new Team();
+        Team returnable4 = new Team();
+        Team returnable5 = new Team();
+        Team returnable6 = new Team();
+        Team returnable7 = new Team();
+        ArrayList<Team> toReturn = new ArrayList<>();
+
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getPitScore() > highest) {
                 returnable.setPitScore(teams.get(i).getPitScore());
-                returnable.teamNumber = teams.get(i).teamNumber;
-                currentHigh = (int) teams.get(i).getPitScore();
+                returnable.setTeamNumber(teams.get(i).getTeamNumber());
+                highest = teams.get(i).getPitScore();
             }
         }
-        return returnable;
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getPitScore() > highest2 && teams.get(i).getPitScore() < highest) {
+                returnable2.setPitScore(teams.get(i).getPitScore());
+                returnable2.setTeamNumber(teams.get(i).getTeamNumber());
+                highest2 = teams.get(i).getPitScore();
+            }
+        }
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getPitScore() > highest3 && teams.get(i).getPitScore() < highest2) {
+                returnable3.setPitScore(teams.get(i).getPitScore());
+                returnable3.setTeamNumber(teams.get(i).getTeamNumber());
+                highest3 = teams.get(i).getPitScore();
+            }
+        }
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getPitScore() > highest4 && teams.get(i).getPitScore() < highest3) {
+                returnable4.setPitScore(teams.get(i).getPitScore());
+                returnable4.setTeamNumber(teams.get(i).getTeamNumber());
+                highest4 = teams.get(i).getPitScore();
+            }
+        }
+        if(teams.size() > 6) {
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getPitScore() > highest5 && teams.get(i).getPitScore() < highest4) {
+                    returnable5.setPitScore(teams.get(i).getPitScore());
+                    returnable5.setTeamNumber(teams.get(i).getTeamNumber());
+                    highest5 = teams.get(i).getPitScore();
+                }
+            }
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getPitScore() > highest6 && teams.get(i).getPitScore() < highest5) {
+                    returnable6.setPitScore(teams.get(i).getPitScore());
+                    returnable6.setTeamNumber(teams.get(i).getTeamNumber());
+                    highest6 = teams.get(i).getPitScore();
+                }
+            }
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getPitScore() > highest7 && teams.get(i).getPitScore() < highest6) {
+                    returnable7.setPitScore(teams.get(i).getPitScore());
+                    returnable7.setTeamNumber(teams.get(i).getTeamNumber());
+                    highest7 = teams.get(i).getPitScore();
+                }
+            }
+        }
+        toReturn.add(returnable);
+        toReturn.add(returnable2);
+        toReturn.add(returnable3);
+        toReturn.add(returnable4);
+        toReturn.add(returnable5);
+        toReturn.add(returnable6);
+        toReturn.add(returnable7);
+
+
+        return toReturn;
     }
 
     private ArrayList<Team> findBestTeamsByMatch() {

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 
 public class RanksActivity extends Activity {
 
+    private static final String LOG_TAG = RanksActivity.class.getSimpleName();
     int teamNumber1 = 0;
     int score1 = 0;
     int teamNumber2 = 0;
@@ -47,6 +49,12 @@ public class RanksActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ranks_main);
         Intent intent = getIntent();
+        Log.e(LOG_TAG, intent.toString());
+        //charat42
+        String gettingIntent = intent.toString();
+        char activity = gettingIntent.charAt(42);
+        Log.e(LOG_TAG, activity + "");
+
         teamNumber1 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM1));
         score1 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE1));
         teamNumber2 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM2));

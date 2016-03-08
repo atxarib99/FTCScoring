@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION   = 1;
+    private static final int DATABASE_VERSION   = 2;
     private static final String DATABASE_NAME   = "teamManager";
     private static final String TABLE_TEAMS  = "teams";
 
@@ -28,7 +28,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ID          = "id";
     private static final String KEY_NUMBER      = "number";
     private static final String KEY_MMR         = "mmr";
-    private static final String KEY_PITSCORE    = "pitscore";
+    private static final String KEY_PITSCORE    = "pits";
     private static final String KEY_INFO        = "info";
 
     //default constructor
@@ -38,11 +38,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_TEAMS + "("
+        String CREATE_TEAMS_TABLE = "CREATE TABLE " + TABLE_TEAMS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NUMBER + " TEXT,"
-                + KEY_MMR + " TEXT," + KEY_PITSCORE + " TEXT," +
-                KEY_INFO + " TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+                + KEY_MMR + " TEXT," + KEY_PITSCORE + " TEXT," + KEY_INFO + " TEXT" + ")";
+        db.execSQL(CREATE_TEAMS_TABLE);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(KEY_PITSCORE, team.getPitScore() + "");
+        values.put(KEY_PITSCORE, (int) team.getPitScore());
         values.put(KEY_NUMBER, team.getTeamNumber());
         values.put(KEY_INFO, team.getInfo());
         values.put(KEY_ID, team.getId());

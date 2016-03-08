@@ -27,9 +27,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Pit Score"
         android:id="@+id/viewingPitScore"
-        android:layout_marginStart="15dp"
         android:layout_below="@+id/viewingTeamName"
-        android:layout_toEndOf="@+id/viewingTeamName" />
+        android:layout_alignStart="@+id/viewingPitScoreLabel" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,8 +37,7 @@
         android:text="MMR"
         android:id="@+id/viewingMMR"
         android:layout_alignBottom="@+id/viewingPitScore"
-        android:layout_toEndOf="@+id/viewingPitScore"
-        android:layout_marginStart="15dp" />
+        android:layout_alignStart="@+id/viewingMMRLabel" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,9 +45,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Team Notes"
         android:id="@+id/viewingTeamNotes"
-        android:layout_toEndOf="@+id/viewingMMR"
-        android:layout_marginStart="15dp"
-        android:layout_alignBottom="@+id/viewingMMR" />
+        android:layout_alignStart="@+id/viewingTeamNotesLabel"
+        android:layout_alignBottom="@+id/viewingMMR"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -58,23 +56,26 @@
         android:text="Pit Score"
         android:id="@+id/viewingPitScoreLabel"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/viewingMMR" />
+        android:layout_toRightOf="@+id/viewingTeamName"
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="MMR"
+        android:layout_toRightOf="@+id/viewingPitScoreLabel"
         android:id="@+id/viewingMMRLabel"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/viewingMMR" />
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Team Notes"
+        android:layout_toRightOf="@+id/viewingMMRLabel"
         android:id="@+id/viewingTeamNotesLabel"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/viewingTeamNotes" />
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>
