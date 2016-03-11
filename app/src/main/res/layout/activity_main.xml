@@ -106,8 +106,9 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/teamNumber"
                             android:inputType="number"
+                            android:layout_marginTop="20dp"
                             android:singleLine="true"
-                            android:layout_below="@+id/carried"
+                            android:layout_below="@+id/endgameConsist"
                             android:layout_alignParentStart="true"
                             android:nextFocusDown="@+id/notes"
                             android:hint="Team Number" />
@@ -145,14 +146,6 @@
                             android:layout_alignParentStart="true"
                             android:hint="End Game Consistency %" />
 
-                        <Spinner
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/carried"
-                            android:layout_below="@+id/endgameConsist"
-                            android:entries="@array/alliance"
-                            android:layout_alignParentStart="true"
-                            android:spinnerMode="dropdown" />
 
                         <EditText
                             android:layout_width="200dp"
@@ -172,16 +165,6 @@
                             android:layout_alignParentStart="true"
                             android:hint="Team Name" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="Scroll Down"
-                            android:id="@+id/textView6"
-                            android:background="@android:color/holo_red_dark"
-                            android:textColor="@android:color/white"
-                            android:layout_above="@+id/notes"
-                            android:layout_alignParentEnd="true" />
 
 
                     </RelativeLayout>
