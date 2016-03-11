@@ -2,6 +2,7 @@ package com.example.arib.ftcscoring;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +70,7 @@ public class TeamListActivity extends Activity {
             String MMR = currentTeam.getMMR() + "";
             String teamNotes = currentTeam.getInfo();
 
+            Log.e("teamName is: ", teamName);
             TextView teamNameView = (TextView) itemView.findViewById(R.id.viewingTeamName);
             TextView teamNumberView = (TextView) itemView.findViewById(R.id.viewingTeamNumber);
             TextView pitScoreView = (TextView) itemView.findViewById(R.id.viewingPitScore);

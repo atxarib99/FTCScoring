@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -184,7 +185,11 @@ public class MainActivity extends Activity {
         EditText blueTeam2 = (EditText) findViewById(R.id.blueTeam2);
         EditText blueScore = (EditText) findViewById(R.id.blueAllianceScore);
         EditText teamNumber = (EditText) findViewById(R.id.teamNumber);
+        EditText teamName = (EditText) findViewById(R.id.teamName);
+        EditText notes = (EditText) findViewById(R.id.notes);
         autonomousScore.setText("");
+        teamName.setText("");
+        notes.setText("");
         autonomousConsistency.setText("");
         teleOpScore.setText("");
         teleOpConsistency.setText("");
@@ -209,6 +214,7 @@ public class MainActivity extends Activity {
         double endGameScore;
         double endGameConsistency;
         int teamNumber;
+        String teamName;
         DatabaseHandler db = new DatabaseHandler(this);
         boolean allGood = true;
         Spinner structure1 = (Spinner) findViewById(R.id.structure);
@@ -256,7 +262,8 @@ public class MainActivity extends Activity {
         }
         double score = 0.0;
         String notes = ((EditText) findViewById(R.id.notes)).getText() + "";
-        String teamName = ((EditText) findViewById(R.id.teamName)).getText() + "";
+        teamName = ((EditText) findViewById(R.id.teamName)).getText() + "";
+        Log.e(LOG_TAG, teamName);
         if((teamName.equals(""))) {
             allGood = false;
             Context context = getApplicationContext();
@@ -296,6 +303,7 @@ public class MainActivity extends Activity {
                     t.setPitScore(finalScore);
                     t.setInfo(notes);
                     t.setTeamName(teamName);
+                    teams.add(t);
                 } else {
                     t = new Team(finalScore, teamNumber, notes, teamName);
                     teams.add(t);
@@ -309,18 +317,6 @@ public class MainActivity extends Activity {
 
                 db.addTeam(t);
             }
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                Context context = getApplicationContext();
-                CharSequence text = "Multithread error";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-
-
             clearFields(view);
         }
 
