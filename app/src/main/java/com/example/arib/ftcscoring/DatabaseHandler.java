@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION   = 2;
+    private static final int DATABASE_VERSION   = 3;
     private static final String DATABASE_NAME   = "teamManager";
     private static final String TABLE_TEAMS  = "teams";
 
@@ -30,6 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_MMR         = "mmr";
     private static final String KEY_PITSCORE    = "pits";
     private static final String KEY_INFO        = "info";
+    private static final String KEY_NAME        = "name";
 
     //default constructor
     public DatabaseHandler(Context context) {
@@ -40,7 +41,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TEAMS_TABLE = "CREATE TABLE " + TABLE_TEAMS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NUMBER + " TEXT,"
-                + KEY_MMR + " TEXT," + KEY_PITSCORE + " TEXT," + KEY_INFO + " TEXT" + ")";
+                + KEY_MMR + " TEXT," + KEY_PITSCORE + " TEXT," + KEY_INFO + " TEXT," + KEY_NAME +
+                " TEXT" + ")";
         db.execSQL(CREATE_TEAMS_TABLE);
     }
 
@@ -63,6 +65,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_INFO, team.getInfo());
         values.put(KEY_ID, team.getId());
         values.put(KEY_MMR, team.getMMR());
+        values.put(KEY_NAME, team.getTeamName());
 
         db.insert(TABLE_TEAMS, null, values);
         db.close();
@@ -101,6 +104,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 team.setMMR(Double.parseDouble(cursor.getString(2)));
                 team.setPitScore(Integer.parseInt(cursor.getString(3)));
                 team.setInfo(cursor.getString(4));
+                team.setTeamName(cursor.getString(5));
                 teamList.add(team);
             } while (cursor.moveToNext());
         }
