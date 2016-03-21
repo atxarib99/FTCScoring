@@ -17,18 +17,22 @@ import java.util.ArrayList;
 
 public class TeamListActivity extends Activity {
 
+    //create a list and an adapter
     ArrayList<Team> teamList;
     ArrayAdapter<Team> adapter;
+
+    //set the arraylist and set the adapter to the listview
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_list);
-        teamList = MainActivity.teams;
-        adapter = new MyListAdapter();
+        teamList = MainActivity.teams;      //set the arraylist
+        adapter = new MyListAdapter();      //set the adapter
         ListView list = (ListView) findViewById(R.id.teamListView);
-        list.setAdapter(adapter);
+        list.setAdapter(adapter);           //set the adapter to the listview
     }
 
+    //create the options
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -36,6 +40,7 @@ public class TeamListActivity extends Activity {
         return true;
     }
 
+    //set the options to do nothing
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -56,13 +61,17 @@ public class TeamListActivity extends Activity {
             super(TeamListActivity.this, R.layout.listview_item, teamList);
         }
 
+        //get the view of the item
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
+            //get the item view
             View itemView = convertView;
             if(itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
             }
+
+            //get the values to set
             Team currentTeam = teamList.get(position);
             String teamName = currentTeam.getTeamName() + "";
             String teamNumber = currentTeam.getTeamNumber() + "";
@@ -70,6 +79,7 @@ public class TeamListActivity extends Activity {
             String MMR = currentTeam.getMMR() + "";
             String teamNotes = currentTeam.getInfo();
 
+            //get the textview
             Log.e("teamName is: ", teamName);
             TextView teamNameView = (TextView) itemView.findViewById(R.id.viewingTeamName);
             TextView teamNumberView = (TextView) itemView.findViewById(R.id.viewingTeamNumber);
@@ -77,12 +87,14 @@ public class TeamListActivity extends Activity {
             TextView MMRScoreView = (TextView) itemView.findViewById(R.id.viewingMMR);
             TextView teamNotesView = (TextView) itemView.findViewById(R.id.viewingTeamNotes);
 
+            //set the textviews to the values
             teamNameView.setText(teamName);
             teamNumberView.setText(teamNumber);
             pitScoreView.setText(pitScore);
             MMRScoreView.setText(MMR);
             teamNotesView.setText(teamNotes);
 
+            //return the itemView as requested
             return itemView;
 
         }

@@ -26,9 +26,9 @@ import java.util.ArrayList;
 
 public class HelpActivity extends Activity {
 
-    int teamNumber = 0;
-    int score = 0;
+    //secret settings
     boolean activated;
+    //create the view
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +36,14 @@ public class HelpActivity extends Activity {
         activated = false;
     }
 
-
-
-
+    //create a blank option
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.blank_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    //secret menu item
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -54,6 +53,7 @@ public class HelpActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_lol) {
+            //display that secret button was pressed
             Context context = getApplicationContext();
             CharSequence text = "You Little Rebel.";
             int duration = Toast.LENGTH_LONG;
@@ -63,8 +63,11 @@ public class HelpActivity extends Activity {
             while(Toast.LENGTH_LONG > toast.getDuration()) {
 
             }
+            //set the secret settings to true
             SharedPreferences sharedPreferences = getSharedPreferences("special", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            //toggle settings
             if(activated) {
                 editor.putBoolean("specialS", false);
                 activated = false;
@@ -73,6 +76,8 @@ public class HelpActivity extends Activity {
                 activated = true;
             }
             editor.commit();
+
+            //display the special settings
             toast.setText("Special Settings = " + sharedPreferences.getBoolean("specialS", false));
         }
 

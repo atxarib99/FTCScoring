@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 public class RanksActivity extends Activity {
 
+    //creates tha variables to be added to views
     private static final String LOG_TAG = RanksActivity.class.getSimpleName();
     int teamNumber1 = 0;
     int score1 = 0;
@@ -43,33 +44,43 @@ public class RanksActivity extends Activity {
     int teamNumber7 = 0;
     int score7 = 0;
 
-
+    //What to do when the activity is started
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //set the view
         setContentView(R.layout.ranks_main);
+
+        //get the intent
         Intent intent = getIntent();
         Log.e(LOG_TAG, intent.toString());
-        //charat42
+        //42 get the character value to see which activity this activity was called from
         String gettingIntent = intent.toString();
         char activity = gettingIntent.charAt(42);
         Log.e(LOG_TAG, activity + "");
 
-        teamNumber1 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM1));
-        score1 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE1));
-        teamNumber2 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM2));
-        score2 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE2));
-        teamNumber3 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM3));
-        score3 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE3));
-        teamNumber4 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM4));
-        score4 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE4));
-        teamNumber5 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM5));
-        score5 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE5));
-        teamNumber6 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM6));
-        score6 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE6));
-        teamNumber7 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM7));
-        score7 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE7));
+        //try to set up all the local values with values from the intent
+        try {
+            teamNumber1 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM1));
+            score1 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE1));
+            teamNumber2 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM2));
+            score2 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE2));
+            teamNumber3 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM3));
+            score3 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE3));
+            teamNumber4 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM4));
+            score4 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE4));
+            teamNumber5 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM5));
+            score5 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE5));
+            teamNumber6 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM6));
+            score6 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE6));
+            teamNumber7 = Integer.parseInt(intent.getStringExtra(MainActivity.TEAM7));
+            score7 = Integer.parseInt(intent.getStringExtra(MainActivity.SCORE7));
+        } catch (Exception e) { //This exception auto stops the setting of the values if something goes wrong
 
+        }
+
+        //creates all the textviews that will be edited
         TextView teamNumberView = (TextView) findViewById(R.id.teamNumber1);
         TextView scoreNumberView = (TextView) findViewById(R.id.scoreNumber1);
         TextView teamNumberView2 = (TextView) findViewById(R.id.teamNumber2);
@@ -84,6 +95,8 @@ public class RanksActivity extends Activity {
         TextView scoreNumberView6 = (TextView) findViewById(R.id.scoreNumber6);
         TextView teamNumberView7 = (TextView) findViewById(R.id.teamNumber7);
         TextView scoreNumberView7 = (TextView) findViewById(R.id.scoreNumber7);
+
+        //sets the texts of the textviews to the local variables
         teamNumberView.setText(teamNumber1 + "");
         scoreNumberView.setText(score1 + "");
         teamNumberView2.setText(teamNumber2 + "");
