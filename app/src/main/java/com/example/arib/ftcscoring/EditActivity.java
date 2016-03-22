@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,7 @@ public class EditActivity extends Activity {
 
     public void saveButtonPressed(View v) {
         int number;
+        DatabaseHandler db = new DatabaseHandler(MainActivity.mainContext);
         try {
             number = Integer.parseInt(teamNumber);
         } catch (NumberFormatException e) {
@@ -73,6 +75,8 @@ public class EditActivity extends Activity {
             t.setTeamNumber(newNumber);
             t.setInfo(editingTeamNotes.getText() + "");
             this.finish();
+            db.deleteTeam(t);
+            db.addTeam(t);
         }
     }
 

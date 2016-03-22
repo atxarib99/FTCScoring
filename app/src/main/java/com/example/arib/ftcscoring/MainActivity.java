@@ -88,6 +88,7 @@ public class MainActivity extends Activity {
         teams = (ArrayList) db.getAllTeams();
 
 
+
     }
 
     //restores the action bar if it disappears
@@ -892,5 +893,15 @@ public class MainActivity extends Activity {
         }
         //returns the lowest unused ID
         return id;
+    }
+
+    private void updateDatabase() {
+        DatabaseHandler db = new DatabaseHandler(this);
+        if(teams.size() != 0) {
+            for(int i = 0; i < teams.size(); i++) {
+                db.deleteTeam(teams.get(i));
+                db.addTeam(teams.get(i));
+            }
+        }
     }
 }
