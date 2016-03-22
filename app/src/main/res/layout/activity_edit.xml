@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/editingTeamName"
         android:hint="Team Name"
-        android:inputType="number"
         android:nextFocusDown="@+id/editingTeamNumber"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
