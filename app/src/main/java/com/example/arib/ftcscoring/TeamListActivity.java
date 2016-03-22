@@ -1,15 +1,20 @@
 package com.example.arib.ftcscoring;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -20,6 +25,9 @@ public class TeamListActivity extends Activity {
     //create a list and an adapter
     ArrayList<Team> teamList;
     ArrayAdapter<Team> adapter;
+    public final static String TEAMNAME = "com.example.arib.teamName";
+    public final static String TEAMNUMBER = "com.example.arib.teamNumber";
+    public final static String TEAMNOTES = "com.example.arib.teamNotes";
 
     //set the arraylist and set the adapter to the listview
     @Override
@@ -28,8 +36,23 @@ public class TeamListActivity extends Activity {
         setContentView(R.layout.activity_team_list);
         teamList = MainActivity.teams;      //set the arraylist
         adapter = new MyListAdapter();      //set the adapter
-        ListView list = (ListView) findViewById(R.id.teamListView);
+        final ListView list = (ListView) findViewById(R.id.teamListView);
         list.setAdapter(adapter);           //set the adapter to the listview
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+
+                Object o = list.getItemAtPosition(position);
+                Team team = teamList.get(position);
+                String givingName = team.getTeamName();
+                String givingNumber = team.getTeamNumber() + "";
+                String givingNotes = team.getInfo();
+                launchEditor(givingName, givingNumber, givingNotes);
+                //create method to launch activity
+
+            }
+        });
     }
 
     //create the options
@@ -38,6 +61,14 @@ public class TeamListActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_team_list, menu);
         return true;
+    }
+
+    private void launchEditor(String teamName, String teamNumber, String teamNotes) {
+        Intent intent = new Intent(this, EditActivity.class);
+        intent.putExtra(TEAMNAME, teamName);
+        intent.putExtra(TEAMNUMBER, teamNumber);
+        intent.putExtra(TEAMNOTES, teamNotes);
+        startActivity(intent);
     }
 
     //set the options to do nothing

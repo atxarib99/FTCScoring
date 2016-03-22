@@ -79,4 +79,5 @@
         android:id="@+id/viewingTeamNotesLabel"
         android:layout_marginStart="10dp"
         android:layout_alignParentTop="true" />
+
 </RelativeLayout>

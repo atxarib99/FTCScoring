@@ -29,4 +29,5 @@
         <item>Carried</item>
     </string-array>
     <string name="title_activity_team_list">TeamListActivity</string>
+    <string name="title_activity_edit">EditActivity</string>
 </resources>

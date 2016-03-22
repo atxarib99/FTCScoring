@@ -854,7 +854,7 @@ public class MainActivity extends Activity {
     }
 
     //checks to see if the team with the given number exists
-    private boolean findTeamByNumber(int teamNumber) {
+    public boolean findTeamByNumber(int teamNumber) {
         //iterates through the ArrayList
         for (Team t : teams) {
             //checks to see if the current team has the given team number return true if yes
@@ -867,7 +867,7 @@ public class MainActivity extends Activity {
     }
 
     //returns the Team with the given team number
-    private Team getTeamByNumber(int teamNumber) {
+    public static Team getTeamByNumber(int teamNumber) {
         //iterate through the ArrayList of teams
         for (Team t : teams) {
             //finds the team with the given team number and returns it
