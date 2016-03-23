@@ -74,9 +74,9 @@ public class EditActivity extends Activity {
             t.setTeamName(editingTeamName.getText() + "");
             t.setTeamNumber(newNumber);
             t.setInfo(editingTeamNotes.getText() + "");
-            this.finish();
             db.deleteTeam(t);
             db.addTeam(t);
+            this.finish();
         }
     }
 

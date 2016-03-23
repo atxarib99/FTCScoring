@@ -16,6 +16,7 @@
         \n*Algorithm gets best team based on MMR system. May not provide the best in
         game results*
     </string>
+    <string name="refresh">Refresh</string>
     <string-array name="RobotStructure">
         <item>Weak(Needs constant repair)</item>
         <item>Sturdy(Few repairs needed)</item>

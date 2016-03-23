@@ -63,12 +63,40 @@ public class TeamListActivity extends Activity {
         return true;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        updateThis();
+    }
+
     private void launchEditor(String teamName, String teamNumber, String teamNotes) {
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra(TEAMNAME, teamName);
         intent.putExtra(TEAMNUMBER, teamNumber);
         intent.putExtra(TEAMNOTES, teamNotes);
         startActivity(intent);
+    }
+
+    private void updateThis() {
+        setContentView(R.layout.activity_team_list);
+        teamList = MainActivity.teams;      //set the arraylist
+        adapter = new MyListAdapter();      //set the adapter
+        final ListView list = (ListView) findViewById(R.id.teamListView);
+        list.setAdapter(adapter);           //set the adapter to the listview
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+
+                Object o = list.getItemAtPosition(position);
+                Team team = teamList.get(position);
+                String givingName = team.getTeamName();
+                String givingNumber = team.getTeamNumber() + "";
+                String givingNotes = team.getInfo();
+                launchEditor(givingName, givingNumber, givingNotes);
+                //create method to launch activity
+
+            }
+        });
     }
 
     //set the options to do nothing
@@ -80,8 +108,8 @@ public class TeamListActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_refresh) {
+            updateThis();
         }
 
         return super.onOptionsItemSelected(item);
