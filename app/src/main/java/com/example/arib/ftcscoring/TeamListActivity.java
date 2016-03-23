@@ -28,6 +28,8 @@ public class TeamListActivity extends Activity {
     public final static String TEAMNAME = "com.example.arib.teamName";
     public final static String TEAMNUMBER = "com.example.arib.teamNumber";
     public final static String TEAMNOTES = "com.example.arib.teamNotes";
+    public final static String TEAMMMR = "com.example.arib.teammmr";
+    public final static String TEAMPIT = "com.example.arib.teampit";
 
     //set the arraylist and set the adapter to the listview
     @Override
@@ -48,7 +50,9 @@ public class TeamListActivity extends Activity {
                 String givingName = team.getTeamName();
                 String givingNumber = team.getTeamNumber() + "";
                 String givingNotes = team.getInfo();
-                launchEditor(givingName, givingNumber, givingNotes);
+                String givingPit = team.getPitScore() + "";
+                String givingMMR = team.getMMR() + "";
+                launchEditor(givingName, givingNumber, givingNotes, givingPit, givingMMR);
                 //create method to launch activity
 
             }
@@ -68,11 +72,13 @@ public class TeamListActivity extends Activity {
         updateThis();
     }
 
-    private void launchEditor(String teamName, String teamNumber, String teamNotes) {
+    private void launchEditor(String teamName, String teamNumber, String teamNotes, String teamPit, String teamMMR) {
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra(TEAMNAME, teamName);
         intent.putExtra(TEAMNUMBER, teamNumber);
         intent.putExtra(TEAMNOTES, teamNotes);
+        intent.putExtra(TEAMMMR, teamMMR);
+        intent.putExtra(TEAMPIT, teamPit);
         startActivity(intent);
     }
 
@@ -92,7 +98,9 @@ public class TeamListActivity extends Activity {
                 String givingName = team.getTeamName();
                 String givingNumber = team.getTeamNumber() + "";
                 String givingNotes = team.getInfo();
-                launchEditor(givingName, givingNumber, givingNotes);
+                String givingPit = team.getPitScore() + "";
+                String givingMMR = team.getMMR() + "";
+                launchEditor(givingName, givingNumber, givingNotes, givingPit, givingMMR);
                 //create method to launch activity
 
             }

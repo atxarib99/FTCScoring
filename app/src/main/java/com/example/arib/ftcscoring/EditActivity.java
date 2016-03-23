@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditActivity extends Activity {
@@ -16,6 +17,8 @@ public class EditActivity extends Activity {
     String teamName;
     String teamNumber;
     String teamNotes;
+    String teamMMR;
+    String teamPit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,12 +27,18 @@ public class EditActivity extends Activity {
         teamName = intent.getStringExtra(TeamListActivity.TEAMNAME);
         teamNumber = intent.getStringExtra(TeamListActivity.TEAMNUMBER);
         teamNotes = intent.getStringExtra(TeamListActivity.TEAMNOTES);
+        teamMMR = intent.getStringExtra(TeamListActivity.TEAMMMR);
+        teamPit = intent.getStringExtra(TeamListActivity.TEAMPIT);
         EditText editingTeamName = (EditText) findViewById(R.id.editingTeamName);
         EditText editingTeamNumber = (EditText) findViewById(R.id.editingTeamNumber);
         EditText editingTeamNotes = (EditText) findViewById(R.id.editingTeamNotes);
+        TextView editingTeamMMR = (TextView) findViewById(R.id.editingTeamMMR);
+        TextView editingTeamPit = (TextView) findViewById(R.id.editingTeamPit);
         editingTeamName.setText(teamName);
         editingTeamNumber.setText(teamNumber);
         editingTeamNotes.setText(teamNotes);
+        editingTeamMMR.setText(teamMMR);
+        editingTeamPit.setText(teamPit);
 
     }
 
