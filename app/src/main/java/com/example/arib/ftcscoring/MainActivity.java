@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -52,6 +53,9 @@ public class MainActivity extends Activity {
 
     //array list of teams
     static ArrayList<Team> teams = new ArrayList<>();
+
+    //static array of pictures
+    static ArrayList<TeamImage> teamPics = new ArrayList<>();
 
     //contect of the activity
     protected static Context mainContext;

@@ -3,14 +3,23 @@ package com.example.arib.ftcscoring;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class EditActivity extends Activity {
 
@@ -19,6 +28,51 @@ public class EditActivity extends Activity {
     String teamNotes;
     String teamMMR;
     String teamPit;
+    public Uri fileUri;
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "FTCScoring");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("FTCScoring", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        } else if(type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_"+ timeStamp + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,11 +83,25 @@ public class EditActivity extends Activity {
         teamNotes = intent.getStringExtra(TeamListActivity.TEAMNOTES);
         teamMMR = intent.getStringExtra(TeamListActivity.TEAMMMR);
         teamPit = intent.getStringExtra(TeamListActivity.TEAMPIT);
+        int intTeamNumber = Integer.parseInt(teamNumber);
+        Uri imageUri = null;
+        ArrayList<TeamImage> tempImageHolding = MainActivity.teamPics;
+        for(TeamImage i : tempImageHolding) {
+            if(i.getTeamNumber() == intTeamNumber) {
+                imageUri = i.getImageUri();
+            }
+        }
         EditText editingTeamName = (EditText) findViewById(R.id.editingTeamName);
         EditText editingTeamNumber = (EditText) findViewById(R.id.editingTeamNumber);
         EditText editingTeamNotes = (EditText) findViewById(R.id.editingTeamNotes);
         TextView editingTeamMMR = (TextView) findViewById(R.id.editingTeamMMR);
         TextView editingTeamPit = (TextView) findViewById(R.id.editingTeamPit);
+        ImageView imageView = (ImageView) findViewById(R.id.viewingImage);
+        if(imageUri == null) {
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.blank));
+        } else {
+            imageView.setImageURI(imageUri);
+        }
         editingTeamName.setText(teamName);
         editingTeamNumber.setText(teamNumber);
         editingTeamNotes.setText(teamNotes);
@@ -48,7 +116,6 @@ public class EditActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
         return true;
     }
-
     public void saveButtonPressed(View v) {
         int number;
         DatabaseHandler db = new DatabaseHandler(MainActivity.mainContext);
@@ -102,5 +169,20 @@ public class EditActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void addPicture(View v) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
+        ArrayList<TeamImage> tempImageHolding = MainActivity.teamPics;
+        int intTeamNumber = Integer.parseInt(teamNumber);
+        TeamImage toAdd = new TeamImage(fileUri, intTeamNumber);
+        tempImageHolding.add(toAdd);
+        ImageView imageView = (ImageView) findViewById(R.id.viewingImage);
+        imageView.setImageURI(fileUri);
     }
 }
