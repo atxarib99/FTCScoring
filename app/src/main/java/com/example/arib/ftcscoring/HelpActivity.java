@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,25 +61,13 @@ public class HelpActivity extends Activity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-            while(Toast.LENGTH_LONG > toast.getDuration()) {
-
-            }
-            //set the secret settings to true
             SharedPreferences sharedPreferences = getSharedPreferences("special", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            //toggle settings
-            if(activated) {
-                editor.putBoolean("specialS", false);
-                activated = false;
-            } else {
-                editor.putBoolean("specialS", true);
-                activated = true;
-            }
+            editor.putString("played_id", 30 + "");
             editor.commit();
 
-            //display the special settings
-            toast.setText("Special Settings = " + sharedPreferences.getBoolean("specialS", false));
+            Log.e("UserID", sharedPreferences.getString("player_id", "-2") + " test");
         }
 
         return super.onOptionsItemSelected(item);

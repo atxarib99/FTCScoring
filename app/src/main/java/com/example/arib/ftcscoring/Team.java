@@ -1,6 +1,7 @@
 package com.example.arib.ftcscoring;
 
 import android.content.Context;
+import android.net.Uri;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,10 +17,11 @@ public class Team {
     double pitScore;
     int teamNumber;
     int id;
+    Uri teamImage;
     String teamName;
     String notes;
 
-    //contructor for basic team sets everything to 0 and sets id to next available
+    //constructor for basic team sets everything to 0 and sets id to next available
     public Team() {
         id = MainActivity.getNextAvailId();
         MMR = 0;
@@ -29,6 +31,7 @@ public class Team {
         pitScore = 0.0;
         teamNumber = 0;
         notes = "";
+        teamImage = null;
     }
     //creates a team based on their first match
     public Team(int score, int teamNumber) {
@@ -41,6 +44,7 @@ public class Team {
         id = MainActivity.getNextAvailId();
         MMR = 0;
         notes = "";
+        teamImage = null;
     }
 
     //creates a team based on their first pit score
@@ -53,6 +57,7 @@ public class Team {
         MMR = 0;
         id = MainActivity.getNextAvailId();
         this.notes = notes;
+        teamImage = null;
     }
 
     //calculates a teams MMR
@@ -197,5 +202,13 @@ public class Team {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public void setTeamImage(Uri teamImage) {
+        this.teamImage = teamImage;
+    }
+
+    public Uri getTeamImage() {
+        return teamImage;
     }
 }

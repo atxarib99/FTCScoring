@@ -31,4 +31,6 @@
     </string-array>
     <string name="title_activity_team_list">TeamListActivity</string>
     <string name="title_activity_edit">EditActivity</string>
+
+    <string name="permission_rationale">This app needs to manage your documents to use an image.</string>
 </resources>

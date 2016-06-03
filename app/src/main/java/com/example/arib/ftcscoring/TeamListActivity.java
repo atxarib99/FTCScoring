@@ -3,6 +3,7 @@ package com.example.arib.ftcscoring;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -100,6 +101,7 @@ public class TeamListActivity extends Activity {
                 String givingNotes = team.getInfo();
                 String givingPit = team.getPitScore() + "";
                 String givingMMR = team.getMMR() + "";
+
                 launchEditor(givingName, givingNumber, givingNotes, givingPit, givingMMR);
                 //create method to launch activity
 
